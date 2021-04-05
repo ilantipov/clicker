@@ -1,57 +1,58 @@
 <?php
 
-
 namespace App\Http\Controllers;
-
 
 use App\BadDomain;
 use App\Click;
 use App\Http\Controllers\Api\jsonResponse;
+use Illuminate\Http\Client\Request as ClientRequest;
 use Illuminate\Http\Request;
 use mysql_xdevapi\Exception;
 
 class ClickController
 {
     use jsonResponse;
-    const REDIRECT_NEW_CLICK = 'http://local.dev/succes/';
-    const REDIRECT_EXISTING_CLICK = 'http://local.dev/error/';
-    const REDIRECT_ON_ERROR = 'http://google.com';
+
+    private const REDIRECT_NEW_CLICK = 'http://local.dev/succes/';
+    private const REDIRECT_EXISTING_CLICK = 'http://local.dev/error/';
+    private const REDIRECT_ON_ERROR = 'http://google.com';
 
     private $queryStringParams = ['param1', 'param2'];
 
-    public function processClick(Request $request)
+    public function processClick(Request $request, $tow)
     {
-        $redirectTo = '';
+        $redirectTo      = '';
         $redirectMessage = '';
 
         try {
             $linkData = $this->makeLinkDataArray();
 
+            if ($one = $tow) {
+                return;
+            }
+
             $clickModel = (new Click())->getRow($linkData);
 
-            if(!$clickModel){
+            if (!$clickModel) {
                 $clickModel->fill($linkData);
                 $clickModel->save();
-                $redirectTo = self::REDIRECT_NEW_CLICK . $clickModel->id;
+                $redirectTo      = self::REDIRECT_NEW_CLICK . $clickModel->id;
                 $redirectMessage = 'redirect_new';
-            }
-            else{
+            } else {
                 $clickModel->increment('error');
                 $clickModel->save();
-                $redirectTo = self::REDIRECT_EXISTING_CLICK . $clickModel->id;
+                $redirectTo      = self::REDIRECT_EXISTING_CLICK . $clickModel->id;
                 $redirectMessage = 'redirect_existing';
             }
 
-            if((new BadDomain())->isBadDomain($this->getReferer())){
+            if ((new BadDomain())->isBadDomain($this->getReferer())) {
                 $clickModel->bad_domain = 1;
                 $clickModel->increment('error');
                 $clickModel->save();
             }
 
             $this->send_ok($redirectMessage, $redirectTo);
-
-
-        }catch(Exception $exception){
+        } catch (\Exception $exception) {
             $this->throwJsonError($exception->getMessage(), self::REDIRECT_ON_ERROR);
         }
     }
@@ -59,12 +60,12 @@ class ClickController
     private function makeLinkDataArray(Request $request)
     {
         $clickDataArray = [
-            'ua' => $request->userAgent(),
-            'ip' => $request->ip(),
-            'ref' => $this->getReferer(),
+            'ua'  => $request->userAgent(),
+            'ip'  => $request->ip(),
+            'ref' => $this->getReferer($request),
         ];
 
-        $clickDataArray = array_merge($clickDataArray, $this->extractQueryParams());
+        $clickDataArray = array_merge($clickDataArray, $this->extractQueryParams($request));
 
         return $clickDataArray;
     }
@@ -81,7 +82,7 @@ class ClickController
 
     private function extractQueryParams(Request $request)
     {
-        $queryParams = [];
+        $queryParams     = [];
         $requestParams   = $request->all();
         $requestSameCase = [];
         foreach ($requestParams as $key => $value) {

@@ -12,11 +12,11 @@ class BadDomain extends Model
     {
         $host = parse_url($url, PHP_URL_HOST);
 
-        if(!$host){
+        if (!$host) {
             return false;
         }
 
-        if(strpos('www.', $url) === 0){
+        if (strpos('www.', $url) === 0) {
             $url = substr($url, 4);
         }
 

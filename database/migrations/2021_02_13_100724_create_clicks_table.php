@@ -23,7 +23,7 @@ class CreateClicksTable extends Migration
             $table->unsignedBigInteger('error')->default(0);
             $table->unsignedSmallInteger('bad_domain')->default(0);
 
-            $table->timestamps();
+            //$table->timestamps();
             $table->primary('id');
         });
     }

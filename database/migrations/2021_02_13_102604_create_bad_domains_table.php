@@ -15,7 +15,7 @@ class CreateBadDomainsTable extends Migration
     {
         Schema::create('bad_domains', function (Blueprint $table) {
             $table->id('domain');
-            $table->timestamps();
+            //$table->timestamps();
             $table->index('domain');
         });
     }

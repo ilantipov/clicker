@@ -26,7 +26,6 @@ trait jsonResponse
 
     private function send_ok(string $message = '', string $redirect_to = '')
     {
-
         $this->response = [
             'status_ok' => true,
             'status_message' => $message,

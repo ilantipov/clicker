@@ -1,0 +1,11 @@
+{
+    "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+    "files.eol": "\n",
+    "[php]": {
+        "editor.defaultFormatter": "wongjn.php-sniffer"
+    },
+    "phpSniffer.standard": "psr12",
+    "phpSniffer.snippetExcludeSniffs": [],
+    "phpSniffer.executablesFolder": "vendor\\squizlabs\\php_codesniffer\\bin\\",
+}

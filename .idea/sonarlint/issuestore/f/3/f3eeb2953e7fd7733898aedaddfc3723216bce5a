@@ -1,0 +1,7 @@
+
+H	php:S1481")Remove this unused "$one" local variable.(·èÄùÿÿÿÿ8²­ŞÛú.
+H	php:S1172"0Remove the unused function parameter "$request".(¢Å»üúÿÿÿÿ
+C	php:S1172"0Remove the unused function parameter "$request".(„ªß“
+?	php:S1144",Remove this unused private "hashkey" method.(–œ£ä
+y	php:S1488"gImmediately return this expression instead of assigning it to the temporary variable "$clickDataArray".(¹³¡
+@	php:S2201"(The return value of "sha1" must be used.(Ìı„§ùÿÿÿÿ

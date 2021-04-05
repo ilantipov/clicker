@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+Route::get('/list', [\App\Http\Controllers\TestController::class, 'list']);
+Route::get('/never', [\App\Http\Controllers\TestController::class, 'never']);
+Route::get('/fill', [\App\Http\Controllers\TestController::class, 'fill']);
+Route::get('/orders', [\App\Http\Controllers\TestController::class, 'orders']);
+
+Route::get('/order/{order}', [\App\Http\Controllers\TestController::class, 'edit']);
+

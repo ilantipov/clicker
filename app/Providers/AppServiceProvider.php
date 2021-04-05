@@ -6,6 +6,12 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+
+    public function boot()
+    {
+
+    }
+
     /**
      * Register any application services.
      *
@@ -13,7 +19,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        //$this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+
     }
 
     /**
@@ -21,8 +28,4 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
-        //
-    }
 }
